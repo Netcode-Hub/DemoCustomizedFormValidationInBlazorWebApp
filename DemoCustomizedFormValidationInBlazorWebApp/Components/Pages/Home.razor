@@ -1,0 +1,60 @@
+﻿@page "/"
+@using System.ComponentModel.DataAnnotations
+@using NetcodeHub.Packages.Components.Validations.OnInput
+@rendermode InteractiveServer
+
+@* <EditForm Model="customer" OnValidSubmit="Save" >
+    <DataAnnotationsValidator />
+    <label class="form-label">ID</label>
+    <Number class="form-control mb-2" @bind-Value="customer.Id" />
+    <ValidationMessage For="()=>customer.Id"/>
+
+    <label for="name" class="form-label">Name</label>
+    <Text class="form-control mb-2" @bind-Value="customer.Name" id="name" />
+    <ValidationMessage For="()=>customer.Name" />
+
+    <label for="message" class="form-label">Message</label>
+    <TextArea class="form-control mb-2" @bind-Value="customer.Address" id="message" />
+    <ValidationMessage For="()=>customer.Address" />
+
+    <button class="btn btn-primary" type="submit">Save</button>
+</EditForm> *@
+
+ <EditForm Model="customer" OnValidSubmit="Save" >
+    <DataAnnotationsValidator />
+    <FloatingNumber class="form-control mb-2" 
+    @bind-Value="customer.Id" Label="ID"  Placeholder="eg. 10"/>
+    <ValidationMessage For="()=>customer.Id"/>
+
+    <FloatingText class="form-control mb-2" 
+    @bind-Value="customer.Name" id="name" Placeholder="John Doe" Label="Full Name" />
+    <ValidationMessage For="()=>customer.Name" />
+
+    <FloatingTextArea class="form-control mb-2" 
+    @bind-Value="customer.Address" id="message" Placeholder="eg Accra Ghana, West Africa" Label="Customer Address" />
+    <ValidationMessage For="()=>customer.Address" />
+
+    <button class="btn btn-primary" type="submit">Save</button>
+</EditForm>
+
+
+@code{
+    Customer customer = new();
+    void Save()
+    {
+
+    }
+
+    public class Customer
+    {
+        [Required, Range(5, 100)]
+        public int Id { get; set; }
+        [Required, MinLength(5), MaxLength(10)]
+        public string? Name { get; set; }
+        [Required, MinLength(5), MaxLength(15), EmailAddress]
+        public string? Email { get; set; }
+        [Required, MinLength(5), MaxLength(20), DataType(DataType.MultilineText)]
+        public string? Address { get; set; }
+    }
+}
+
